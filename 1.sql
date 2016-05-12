@@ -23,17 +23,17 @@ WITH RECURSIVE graph(id, parent_id) AS (
     FROM graph
 
 ), starting_edges AS (
-   SELECT id1, id2
-   FROM all_possible_edges
-   WHERE id1 = 1
+    SELECT id1, id2
+    FROM all_possible_edges
+    WHERE id1 = 1
 
 ), pass_through_edges AS (
-   SELECT *
-   FROM starting_edges
-   UNION
-   SELECT e2.id1, e2.id2
-   FROM pass_through_edges AS e1
-   INNER JOIN all_possible_edges AS e2 ON e1.id2 = e2.id1
+    SELECT *
+    FROM starting_edges
+    UNION
+    SELECT e2.id1, e2.id2
+    FROM pass_through_edges AS e1
+    INNER JOIN all_possible_edges AS e2 ON e1.id2 = e2.id1
 )
 
 SELECT id1

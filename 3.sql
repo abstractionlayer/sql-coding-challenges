@@ -6,7 +6,7 @@
 WITH RECURSIVE fib(lvl, current, next) AS (
     SELECT 1, 0, 1
     UNION ALL
-    SELECT lvl+1, next, current + next
+    SELECT lvl + 1, next, current + next
     FROM fib AS f
     WHERE lvl < 10
 )
