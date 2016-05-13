@@ -15,8 +15,8 @@ WITH RECURSIVE graph(id, parent_id) AS (
     SELECT  9,  9 UNION ALL
     SELECT 12, 11
 
-), all_possible_edges AS (
-    SELECT id AS id1, parent_id AS id2
+), all_possible_edges(id1, id2) AS (
+    SELECT id, parent_id
     FROM graph
     UNION
     SELECT parent_id, id

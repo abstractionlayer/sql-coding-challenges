@@ -43,8 +43,8 @@ WITH RECURSIVE tree(id, parent_id, sign) AS (
     FROM bypass_up
     WHERE p3 IS NOT NULL
 
-), only_top_lvl AS (
-    SELECT node, p3, p2, p1, lvlup
+), only_top_lvl(node, idlvl1, idlvl2, idlvl3, rn) AS (
+    SELECT node, p3, p2, p1
          , ROW_NUMBER() OVER (
                PARTITION BY node
                ORDER BY lvlup DESC
@@ -52,6 +52,6 @@ WITH RECURSIVE tree(id, parent_id, sign) AS (
     FROM without_null
 )
 
-SELECT node, p3 AS idlvl1, p2 AS idlvl2, p1 AS idlvl3
+SELECT node, idlvl1, idlvl2, idlvl3
 FROM only_top_lvl
 WHERE rn = 1;
