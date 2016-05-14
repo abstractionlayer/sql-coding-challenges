@@ -20,10 +20,21 @@ WITH master(id_m, value) AS (
     SELECT 3, 1 UNION ALL
     SELECT 3, 3 UNION ALL
     SELECT 3, 5
+
+
+), rolled_up(id_m, s, is_grouping) AS (
+    SELECT id_m, SUM(value), GROUPING(id_m)
+    FROM master AS m
+    GROUP BY ROLLUP(id_m)
+
+), master_detail AS (
+    SELECT r.id_m, r.s, d.grp
+    FROM rolled_up AS r
+    LEFT OUTER JOIN detail AS d ON r.id_m = d.id_m
+    WHERE d.id_m IS NOT NULL OR r.is_grouping = 1
 )
 
-SELECT grp, sum(value) AS s
-FROM master AS m
-INNER JOIN detail AS d ON m.id_m = d.id_m
-GROUP BY ROLLUP (grp)
-ORDER BY grp;
+SELECT grp, SUM(s) AS s
+FROM master_detail
+GROUP BY grp
+ORDER BY 1;
