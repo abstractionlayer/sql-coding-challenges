@@ -20,12 +20,8 @@ WITH RECURSIVE tree(id, parent_id, sign) AS (
     SELECT  2, NULL, 0 UNION ALL
     SELECT  1, NULL, 0
 
-), start AS (
-    SELECT t1.id        AS node
-         , t1.id        AS p1
-         , t1.parent_id AS p2
-         , t2.parent_id AS p3
-         , 0            AS lvlup
+), start(node, p1, p2, p3, lvlup) AS (
+    SELECT t1.id, t1.id, t1.parent_id, t2.parent_id, 0
     FROM tree AS t1
     INNER JOIN tree AS t2 ON t1.parent_id = t2.id
     WHERE t1.sign = 1

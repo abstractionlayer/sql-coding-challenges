@@ -28,7 +28,7 @@ WITH RECURSIVE graph(id, parent_id) AS (
     WHERE id1 = 1
 
 ), pass_through_edges AS (
-    SELECT *
+    SELECT id1, id2
     FROM starting_edges
     UNION
     SELECT e2.id1, e2.id2
